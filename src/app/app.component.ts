@@ -1,15 +1,10 @@
 import { Component } from '@angular/core';
 import { Printer } from './printer';
+import {PrinterService} from './services/printer.service';
+import {Observable} from 'rxjs/Rx';
 
-const PRINTERS: Printer[] = [
-  { id: 11, name: 'library' },
-  { id: 12, name: 'rodman' },
-  { id: 13, name: 'dolan' },
-  { id: 14, name: 'murphy' },
-  { id: 15, name: 'area51' },
-  { id: 16, name: 'atrium' },
-  { id: 17, name: 'sutowski' }
-]
+
+const PRINTERS: Printer[]=[];
 
 @Component({
   selector: 'my-app',
@@ -22,20 +17,38 @@ const PRINTERS: Printer[] = [
               <ul class="printers">
                 <li *ngFor="let printer of printers" (click)="onSelectPrinter(printer)">
                   <div>
-                    <label>id: </label> {{printer.id}}
+                    <label>name: </label> {{printer.name}}
                   </div>
                   <div>
-                    <label>name: </label> {{printer.name}}
+                    <label>status: </label> {{printer.status}}
                   </div>
                 </li>
               </ul>`,
+  providers: [PrinterService]
 })
 export class AppComponent  { 
   title = 'Dashboard';
   user= 'IT';
   selectedPrinter: Printer;
   printers= PRINTERS;
+  //newPRINTERS: Observable<Array<Object[]>>
 
+  constructor(private printerservice: PrinterService) {
+    this.printerservice.getPrinters()
+    .subscribe(errorPrinters => {
+      console.log(errorPrinters);
+      for (let i of errorPrinters.printers.inError)
+      {
+        if (i.name.search("printsrv08") != -1)
+        {
+          this.printers.push(i);
+        }
+        console.log(i);
+      }
+    }
+    )
+
+  }
   onSelectPrinter(printer: Printer): void{
     this.selectedPrinter = printer;
   }

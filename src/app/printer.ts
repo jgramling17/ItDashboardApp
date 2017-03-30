@@ -1,4 +1,4 @@
 export class Printer {
-  id: number;
-  name: string
+  name: string;
+  status: string;
 }

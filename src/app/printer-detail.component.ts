@@ -6,8 +6,8 @@ import { Printer } from './printer';
     selector: 'my-printer-detail',
     template: `<div *ngIf="printer">
                   <h2>{{printer.name}} details</h2>
-                  <div><label>id: </label>{{printer.id}}</div>
                   <div><label>name: </label>{{printer.name}}</div>
+                  <div><label>status: </label>{{printer.status}}</div>
                 </div>`,
             })
 
