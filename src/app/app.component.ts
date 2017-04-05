@@ -4,7 +4,7 @@ import {PrinterService} from './services/printer.service';
 import {Observable} from 'rxjs/Rx';
 
 
-const PRINTERS: Printer[]=[];
+const errorPRINTERS: Printer[]=[];
 
 @Component({
   selector: 'my-app',
@@ -17,21 +17,23 @@ const PRINTERS: Printer[]=[];
               <ul class="printers">
                 <li *ngFor="let printer of printers" (click)="onSelectPrinter(printer)">
                   <div>
-                    <label>name: </label> {{printer.name}}
+                    <label>name: </label> {{printer.shortName}}
                   </div>
                   <div>
                     <label>status: </label> {{printer.status}}
                   </div>
                 </li>
-              </ul>`,
+              </ul>
+              <div>
+                <google-calendar></google-calendar>
+              </div>`,
   providers: [PrinterService]
 })
 export class AppComponent  { 
   title = 'Dashboard';
   user= 'IT';
   selectedPrinter: Printer;
-  printers= PRINTERS;
-  //newPRINTERS: Observable<Array<Object[]>>
+  printers= errorPRINTERS;
 
   constructor(private printerservice: PrinterService) {
     this.printerservice.getPrinters()
@@ -42,6 +44,7 @@ export class AppComponent  {
         if (i.name.search("printsrv08") != -1)
         {
           this.printers.push(i);
+          i.shortName = i.name.substring(11, i.name.length);
         }
         console.log(i);
       }
