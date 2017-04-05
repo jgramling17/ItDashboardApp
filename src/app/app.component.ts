@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Printer } from './printer';
 import {PrinterService} from './services/printer.service';
+import {CalendarAuthService} from './services/calendar-auth.service';
 import {Observable} from 'rxjs/Rx';
 
 
@@ -27,7 +28,7 @@ const errorPRINTERS: Printer[]=[];
               <div>
                 <google-calendar></google-calendar>
               </div>`,
-  providers: [PrinterService]
+  providers: [PrinterService, CalendarAuthService]
 })
 export class AppComponent  { 
   title = 'Dashboard';
@@ -35,7 +36,7 @@ export class AppComponent  {
   selectedPrinter: Printer;
   printers= errorPRINTERS;
 
-  constructor(private printerservice: PrinterService) {
+  constructor(private printerservice: PrinterService, calendarservice: CalendarAuthService) {
     this.printerservice.getPrinters()
     .subscribe(errorPrinters => {
       console.log(errorPrinters);

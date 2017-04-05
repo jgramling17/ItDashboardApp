@@ -1,5 +1,3 @@
-//DOESNT FUCKING WORK
-
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
@@ -13,6 +11,6 @@ export class PrinterService {
     getPrinters(){
         return this.http.get('http://143.105.48.170:9191/api/health?Authorization=Yc1bSgZxixdFAYwQa89rIKt1b0ti7k3v')
             .map(res => res.json());
-            
+
     }
 }
