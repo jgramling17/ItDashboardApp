@@ -1,3 +1,8 @@
+import 'rxjs/add/operator/map';
+import { Appointment } from '../appointment';
+
+const appointments: Appointment[]=[];
+
 export class CalendarAuthService {
     static clientID = '386660134986-n5l4lur2aroupk20fedhph66vibc50q9.apps.googleusercontent.com'
     static scope = 'https://www.googleapis.com/auth/calendar.readonly'
@@ -8,12 +13,11 @@ export class CalendarAuthService {
 
     constructor() {
         console.log('initializing calendar authentication service;');
-        this.runLifeCycle();
     }
 
     runLifeCycle(){
         return this.authenticate()
-		 .then(() => this.getEvents())
+		 .then(() => this.initAppointments())
     }
 
     authenticate() {
@@ -29,7 +33,6 @@ export class CalendarAuthService {
            if (token && !token.error) 
            {
                console.log('authenticated');
-               console.log(token);
                 this.isAuthenticated = true;
                 resolve();
            }
@@ -43,17 +46,16 @@ export class CalendarAuthService {
         });
     }
 
-    getEvents(){
+    initAppointments(){
             var currentDate = new Date();
             var maxDate = new Date()
             maxDate.setHours(currentDate.getHours() + 12);
             var currentDateISO = currentDate.toISOString();
             var maxDateISO = maxDate.toISOString();
-            console.log(currentDateISO);
-            console.log(maxDateISO);
             return new Promise((resolve, reject) => {
                 console.log('initialize Google Calendar API');
                 gapi.client.load('calendar', 'v3', function callApi(){
+                    //Not an acutal error need to comment this out on start for somereason
                      var request = gapi.client.calendar.events.list({
                         calendarId: 'primary',
                         singleEvents: true,
@@ -61,13 +63,27 @@ export class CalendarAuthService {
                         timeMin: currentDateISO
 	            });
                 request.execute((resp) => {
-	        	var appointments = [];
-                console.log(resp);
+                    //console.log(resp);
+                    for (let i of resp.items) {
+                        appointments.push(i);
+                        i.startTime = i.start.date;
+                        i.endTime = i.end.date;
+                        if (i.startTime === i.endTime){
+                            i.startTime = "All Day";
+                        }
+                    }
+                    resolve();
             })
                 });
                
         })
         
     }
+
+
+    getAppointments(){
+        this.runLifeCycle();
+        return appointments;
+        }
+    }
     
-}

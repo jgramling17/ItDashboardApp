@@ -7,10 +7,11 @@ import {HttpModule} from '@angular/http';
 import { AppComponent } from './app.component';
 import { PrinterDetailComponent } from "./printer-detail.component";
 import { GoogleCalendarComponent } from "./google-calendar.component";
+import { ClockComponent } from "./clock.component";
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule, HttpModule],
-  declarations: [ AppComponent, PrinterDetailComponent, GoogleCalendarComponent],
+  declarations: [ AppComponent, PrinterDetailComponent, GoogleCalendarComponent, ClockComponent],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }
