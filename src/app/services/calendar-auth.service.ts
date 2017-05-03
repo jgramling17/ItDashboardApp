@@ -46,7 +46,7 @@ export class CalendarAuthService {
         });
     }
 
-    initAppointments(){
+    initAppointments(){          
             var currentDate = new Date();
             var maxDate = new Date()
             maxDate.setHours(currentDate.getHours() + 12);
@@ -66,9 +66,9 @@ export class CalendarAuthService {
                     //console.log(resp);
                     for (let i of resp.items) {
                         appointments.push(i);
-                        i.startTime = i.start.date;
-                        i.endTime = i.end.date;
-                        if (i.startTime === i.endTime){
+                        i.startTime = i.start.dateTime;
+                        i.endTime = i.end.dateTime;
+                        if (i.start.date){
                             i.startTime = "All Day";
                         }
                     }
@@ -77,7 +77,6 @@ export class CalendarAuthService {
                 });
                
         })
-        
     }
 
 

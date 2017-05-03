@@ -5,9 +5,9 @@ import { Printer } from './printer';
 @Component({
     selector: 'my-printer-detail',
     template: `<div *ngIf="printer">
-                  <h2>{{printer.shortName}} details</h2>
-                  <div><label>name: </label>{{printer.name}}</div>
-                  <div><label>status: </label>{{printer.status}}</div>
+                  <h5>{{printer.shortName}} details</h5>
+                  <div><h4><label>name: </label>{{printer.name}}</h4></div>
+                  <div><h4><label>status: </label>{{printer.status}}</h4></div>
                 </div>`,
             })
 
